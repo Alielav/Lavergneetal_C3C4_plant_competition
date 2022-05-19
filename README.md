@@ -4,7 +4,7 @@ This repository contains the Python script to run the C3/C4 P model with an exam
 
 Lavergne et al. (submitted) A semi-empirical model for primary production, isotopic discrimination and competition of C3 and C4 plants
 
-# The script written en Python and input data are:
+# The script written in Python and input data are:
 
 Script to run an example of the C3/C4 model:  Example_running_C3C4_model.py 
 
