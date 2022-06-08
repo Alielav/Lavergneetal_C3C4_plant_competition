@@ -483,6 +483,14 @@ var_out6=f_2d.createVariable('D13C_c3', 'f4', ('lat', 'lon',),fill_value=-1e+20)
 var_out7=f_2d.createVariable('D13C_c4', 'f4', ('lat', 'lon',),fill_value=-1e+20)
 var_out8=f_2d.createVariable('contribution_c4_GPP', 'f4', ('lat', 'lon',),fill_value=-1e+20)
 
+var_out1.units = '%'
+var_out2.units = 'PgC/yr'
+var_out3.units = 'PgC/yr'
+var_out4.units = 'PgC/yr'
+var_out5.units = '‰'
+var_out6.units = '‰'
+var_out7.units = '‰'
+var_out8.units = '%'
 
 # data
 lats=np.arange(-89.75,90.25, 0.5)
