@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
 
 import os
 
@@ -171,7 +169,7 @@ d13C_tot,d13C_c3,d13C_c4 = C3C4model.d13C_tot(F4,d13CO2_ave,D13Cc3_ave,D13Cc4_av
 contribuC4 = gpp_c4/gpp_tot*100
 
 
-## GPP weighted by gridarea and converted from kgC yr-1 to PgC yr-1
+## GPP weighted by gridarea and converted from kgC m-2 yr-1 to PgC yr-1
 gpp_tot_PgC = gpp_tot*gridarea*1e-12
 gpp_c3_PgC = gpp_c3*gridarea*1e-12
 gpp_c4_PgC = gpp_c4*gridarea*1e-12
@@ -459,6 +457,51 @@ ax.text(0.68, 0.18, u'$R^2$ = O.57',transform=ax.transAxes,va = 'top',fontsize=1
 fig_figure.savefig('Figure_d13C_pred_obs_example.jpg', bbox_inches='tight')
 
 plt.close()
+
+
+
+## Create .nc output file
+
+f_2d=Dataset('pmodel_outputs.nc','w',format='NETCDF4')
+
+f_2d.description='Annual F4, GPP, D13C and Cc4 outputs from C3/C4 P model'
+
+# dimensions
+f_2d.createDimension('lat', 360)
+f_2d.createDimension('lon', 720)
+
+# variables
+latitudes=f_2d.createVariable('lat', 'f4', ('lat',))
+longitudes=f_2d.createVariable('lon', 'f4', ('lon',))
+
+var_out1=f_2d.createVariable('F4', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out2=f_2d.createVariable('gpp_tot', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out3=f_2d.createVariable('gpp_c3', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out4=f_2d.createVariable('ggp_c4', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out5=f_2d.createVariable('D13C_tot', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out6=f_2d.createVariable('D13C_c3', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out7=f_2d.createVariable('D13C_c4', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+var_out8=f_2d.createVariable('contribution_c4_GPP', 'f4', ('lat', 'lon',),fill_value=-1e+20)
+
+
+# data
+lats=np.arange(-89.75,90.25, 0.5)
+lons=np.arange(-179.75,180.25, 0.5)
+
+latitudes[:] = lats
+longitudes[:] = lons
+
+var_out1[:,:]=F4
+var_out2[:,:]=gpp_tot_PgC
+var_out3[:,:]=gpp_c3_PgC
+var_out4[:,:]=gpp_c4_PgC
+var_out5[:,:]=D13C_tot
+var_out6[:,:]=D13C_c3
+var_out7[:,:]=D13C_c4
+var_out8[:,:]=contribuC4
+
+
+f_2d.close()
 
 
 
